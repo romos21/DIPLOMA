@@ -14,6 +14,7 @@ const filmCartStyles = theme => {
             padding: '0 20px',
             textAlign: 'left',
             display: 'grid',
+            gridArea: 'elData',
             gridTemplateColumns: '1fr 1fr',
             gridTemplateRows: '1fr 1fr',
             gridTemplateAreas: `
@@ -29,8 +30,8 @@ const filmCartStyles = theme => {
             padding: 5,
             color: 'black',
             outline: 'none',
-            width:200,
-            height:40,
+            width: 200,
+            height: 40,
         },
         addToFavourites: {
             gridArea: 'button',
@@ -40,27 +41,48 @@ const filmCartStyles = theme => {
             padding: 5,
             color: 'white',
             outline: 'none',
-            width:200,
-            height:40,
+            width: 200,
+            height: 40,
         },
         classNameForDemonstration: {
             display: 'grid',
+            gridTemplateColumns: '1fr 2fr 2fr',
+            gridTemplateRows: '3fr 1fr 1fr 1fr 1fr',
             gridTemplateAreas: `
     'img description description'
-    'img description description'
-    'name . rate'
-    'genre . .'
-    'button . .';
-    grid-template-columns: 1fr 2fr 2fr;
-    grid-template-rows: 5fr 1fr 1fr;
+    'img . budget'
+    'img . revenue'
+    'elData . rate'
     `,
         },
         elementChoose: {
             margin: 'auto',
         },
         movieDescription: {
-            margin:20,
+            fontSize: 25,
+            margin: 20,
             gridArea: 'description',
+        },
+        movieBudget: {
+            display: 'flex',
+            justifyContent:'space-between',
+            alignSelf:'center',
+            fontSize: 50,
+            margin: 20,
+            gridArea: 'budget',
+        },
+        movieRevenue: {
+            display: 'flex',
+            justifyContent:'space-between',
+            alignSelf:'center',
+            fontSize: 50,
+            margin: 20,
+            gridArea: 'revenue',
+        },
+        financeValue:{
+            backgroundColor:'green',
+            border:'1px solid green',
+            borderRadius:3,
         },
         cartName: {
             gridArea: 'name',

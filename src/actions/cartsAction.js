@@ -2,18 +2,16 @@ import {createActions} from 'redux-actions';
 
 export const {
     cartsAdd,
-    searchBy,
-    searchResult,
-    sortBy,
+    actionBy,
     favouritesAdd,
     favouritesRemove,
-    resultOutputDataChange,
+    sortOrderChange,
+    moviesOutputChange,
 } = createActions(
     "CARTS_ADD",
-    "SEARCH_BY",
-    "SEARCH_RESULT",
-    "SORT_BY",
+    "ACTION_BY",
     "FAVOURITES_ADD",
     "FAVOURITES_REMOVE",
-    "RESULT_OUTPUT_DATA_CHANGE",
+    "SORT_ORDER_CHANGE",
+    "MOVIES_OUTPUT_CHANGE",
 );

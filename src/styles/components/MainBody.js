@@ -6,7 +6,7 @@ const mainBodyStyles = theme => {
             margin: 30,
         },
         searchResultsHead: {
-            display: 'flex',
+            display:'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             fontSize: 20,

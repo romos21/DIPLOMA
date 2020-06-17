@@ -1,16 +1,20 @@
 export const cartsState={
-    carts:{data:[]},
+    carts:{
+        data:[],
+        limit:9,
+        offset:0,
+    },
     favourites:[],
     searchState:{
-        'title':false,
+        'title':true,
         'genres':false,
     },
-    currentSearchState:'',
-    currentSortState:'',
+    currentSearchState:'title',
+    currentSortState:'vote_average',
     sortState:{
         'release_date':false,
-        'vote_average':false,
+        'vote_average':true,
     },
-    sortOrder:'asc',
+    sortOrder:'desc',
     searchValue:'',
 };

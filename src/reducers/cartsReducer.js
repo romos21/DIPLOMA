@@ -1,11 +1,18 @@
-import {cartsAdd, searchBy,searchResult, sortBy,favouritesAdd,favouritesRemove,resultOutputDataChange} from 'actions';
+import {cartsAdd, actionBy,favouritesAdd,favouritesRemove,sortOrderChange,moviesOutputChange} from 'actions';
 import {handleActions} from 'redux-actions';
 import {cartsState} from "../constants/defaultState";
 
 export default {
     carts: handleActions({
         [cartsAdd]: (state, {payload}) => {
-            const newState={...state,carts:payload.carts,searchValue:payload.searchValue?payload.searchValue:state.searchValue};
+            const newState={
+                ...state,
+                carts:{
+                    ...state.carts,
+                    data:payload.carts.data,
+                },
+                searchValue:payload.searchValue?payload.searchValue:state.searchValue,
+            };
             return newState;
         },
         [favouritesAdd]: (state,{payload})=>{
@@ -27,7 +34,7 @@ export default {
                 favourites: newFavourites,
             }
         },
-        [searchBy]: (state,{payload})=>{
+        [actionBy]: (state,{payload})=>{
             let contentStateNew=payload.contentToChange==='search'?{...state.searchState}:{...state.sortState};
             const contentStateKeys=Object.keys(contentStateNew);
             let currentContentState='';
@@ -47,6 +54,22 @@ export default {
                 searchValue: payload.searchValue?payload.searchValue:state.searchValue,
                 currentSearchState:payload.contentToChange==='search'? currentContentState:state.currentSearchState,
                 currentSortState:payload.contentToChange==='sort'? currentContentState:state.currentSortState,
+            }
+        },
+        [sortOrderChange]:(state)=>{
+            return{
+                ...state,
+                sortOrder:state.sortOrder==='asc'?'desc':'asc',
+            }
+        },
+        [moviesOutputChange]:(state)=>{
+            return{
+                ...state,
+                carts: {
+                    data:state.carts.data,
+                    limit:state.carts.limit+9,
+                    offset:state.carts.offset+9,
+                },
             }
         },
     }, cartsState),

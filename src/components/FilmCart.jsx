@@ -41,7 +41,7 @@ const FilmCart = (props) => {
             <img src={cart.poster_path} className={classes.searchResultsElement} onClick={handleClickNavigation}/>
             <div className={classes.ElementData}>
                 <span className={classes.cartName}>{cart.title} </span>
-                <span className={classes.cartDate}>{cart.release_date} </span>
+                <span className={classes.cartDate}>{cart.release_date?cart.release_date.split('-')[0]:null} </span>
                 <button type='button' className={buttonFavouritesStyle}
                         onClick={handleClick}>{buttonFavouritesText}</button>
                 <span className={classes.cartGenre}>{cart.genres ? cart.genres.map(genre => {
@@ -52,10 +52,16 @@ const FilmCart = (props) => {
                 <p className={classes.movieDescription}>{cart.overview}</p> : null}
             {window.location.pathname === '/' + cart.id
                 ?
-                <div>
-                    <p className={classes.movieDescription}>{cart.budget}</p>
-                    <p className={classes.movieDescription}>{cart.revenue}</p>
-                </div>
+                <>
+                    <p className={classes.movieBudget}>
+                        <span>Budget:</span>
+                        <span className={classes.financeValue}>{cart.budget+'$'}</span>
+                    </p>
+                    < p className={classes.movieRevenue}>
+                        < span> Revenue:</span>
+                        <span className={classes.financeValue}>{cart.revenue+'$'}</span>
+                    </p>
+                </>
                 : null
             }
             {window.location.pathname === '/' + cart.id ?

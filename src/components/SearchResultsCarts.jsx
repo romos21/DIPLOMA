@@ -6,6 +6,7 @@ import FilmCart from "./FilmCart";
 import {useHistory} from "react-router";
 import {
     cartsAdd,
+    moviesOutputChange,
 } from 'actions';
 import Favourites from "./Favourites";
 import {Route, Router, Switch} from "react-router-dom";
@@ -16,19 +17,25 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
     cartsAdd,
+    moviesOutputChange,
 };
 const SearchResultCarts = (props) => {
     const classes = searchResultsCartsStyles();
     const history = useHistory();
     useEffect(() => {
-        fetch('http://reactjs-cdp.herokuapp.com/movies?limit=9')
+        console.log(carts.currentSearchState);
+        const fetchUrl=window.location.pathname==='/searchResult'
+            ?`http://reactjs-cdp.herokuapp.com/movies?search=${carts.searchValue}&searchBy=${carts.currentSearchState}&sortOrder=${carts.sortOrder}&sortBy=${carts.currentSortState}&limit=${carts.carts.limit}&offset=${carts.carts.offset}`
+            :`http://reactjs-cdp.herokuapp.com/movies?sortOrder=${carts.sortOrder}&sortBy=${carts.currentSortState}&limit=${carts.carts.limit}&offset=${carts.carts.offset}`
+        fetch(fetchUrl)
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
+                console.log(data);
                 props.cartsAdd({carts: data});
-            });
-    }, []);
+            })
+    }, [props.carts.carts.limit, props.carts.carts.offset,props.carts.searchValue]);
     const {carts} = props;
     return (
         <Router history={history}>
@@ -49,6 +56,13 @@ const SearchResultCarts = (props) => {
                             : null
                         }
                     </div>
+                    <div className={classes.footerRow}>
+                        <button className={classes.addMoviesActive}
+                                onClick={props.moviesOutputChange}
+                        >
+                            Show More...
+                        </button>
+                    </div>
                 </Route>
                 <Route path='/searchResult'>
                     {
@@ -68,6 +82,13 @@ const SearchResultCarts = (props) => {
                             :
                             <div className={classes.notFound}/>
                     }
+                    <div className={classes.footerRow}>
+                        <button className={classes.addMoviesActive}
+                                onClick={props.moviesOutputChange}
+                        >
+                            Show More...
+                        </button>
+                    </div>
                 </Route>
                 <Route path='/favourites'>
                     <div>

@@ -26,8 +26,24 @@ const searchResultsCartsStyles = theme => {
             backgroundImage: 'url("https://i.gifer.com/G2TW.gif")',
             border: '1px solid white',
             borderRadius: 5,
-        }
-
+        },
+        footerRow:{
+            margin:20,
+            display:window.location.pathname==='/favourites'?'none':'flex',
+            justifyContent:'center',
+            alignItems:'center',
+        },
+        addMoviesActive: {
+            justifySelf:'center',
+            backgroundColor: 'white',
+            border: '1px solid white',
+            borderRadius: 3,
+            padding: 5,
+            color: 'black',
+            outline: 'none',
+            width: 200,
+            height: 40,
+        },
 
     };
 };

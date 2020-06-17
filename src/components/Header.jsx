@@ -1,10 +1,11 @@
-import React, {useRef} from 'react';
+import React, {useRef,useEffect} from 'react';
 import 'react-redux';
 import headerStyles from '../styles/components/Header';
 import {connect} from 'react-redux';
 import {
     cartsAdd,
-    searchBy
+    actionBy,
+    moviesOutputChange,
 } from "../actions";
 import {useHistory} from "react-router";
 import {Link, Router} from 'react-router-dom';
@@ -15,18 +16,19 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
     cartsAdd,
-    searchBy,
+    actionBy,
+    moviesOutputChange,
 };
 const Header = (props) => {
     const classes = headerStyles();
     const history = useHistory();
     const searchEl = useRef(null);
     const handleClickSearchBy=(event)=>{
-        props.searchBy({contentState:event.target.textContent, contentToChange:'search'})
+        props.actionBy({contentState:event.target.textContent, contentToChange:'search'})
     };
     const handleClick = (event) => {
         event.preventDefault();
-        fetch(`http://reactjs-cdp.herokuapp.com/movies?search=${window.encodeURI(searchEl.current.value)}&searchBy=${carts.currentSearchState}&sortOrder=desc&sortBy=${carts.currentSortState}&limit=9`)
+        fetch(`http://reactjs-cdp.herokuapp.com/movies?search=${window.encodeURI(searchEl.current.value)}&searchBy=${carts.currentSearchState}&sortOrder=${carts.sortOrder}&sortBy=${carts.currentSortState}&limit=9`)
             .then((response) => {
                 return response.json();
             })
@@ -35,7 +37,17 @@ const Header = (props) => {
                 props.cartsAdd({carts: data,searchValue:window.encodeURI(searchEl.current.value)});
             });
     };
-
+   useEffect(()=>{
+        fetch(`http://reactjs-cdp.herokuapp.com/movies?search=${window.encodeURI(searchEl.current.value)}&searchBy=${carts.currentSearchState}&sortOrder=${carts.sortOrder}&sortBy=${carts.currentSortState}&limit=9`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                history.push('/searchResult');
+                props.cartsAdd({carts: data,searchValue:window.encodeURI(searchEl.current.value)});
+            });
+    },[props.carts.currentSearchState]);
+   const searchByEl=useRef(null);
     const {carts} = props;
     const searchKeys = Object.keys(carts.searchState);
     return (
@@ -49,12 +61,11 @@ const Header = (props) => {
                     </Router>
                     <div className={classes.siteEmblem}/>
                 </div>
-                <form className={classes.mainLinks}>
-                    <span className={classes.viewTypeLinks}>Cartoons</span>
-                    <span className={classes.viewTypeLinks}>Sitcoms</span>
-                    <span className={classes.viewTypeLinks}>TV shows</span>
-                    <span className={classes.viewTypeLinks}>Movies</span>
-                </form>
+                <div className={classes.secHeaderEl}>
+                    <img src='https://static.tildacdn.com/tild6431-3066-4264-b661-306535386264/logo.svg' height={20}/>
+                    <span>FINAL DIPLOMA</span>
+                    <span className={classes.diplomaTitle}>"MOVIE APP"</span>
+                </div>
                 <div className={classes.favourites}>
                     <Router history={history}>
                         <Link to='/favourites'>
@@ -75,7 +86,8 @@ const Header = (props) => {
                         <span className={classes.searchVariantsTitle}>Search by</span>
                         <div className={classes.searchVariantsList}>
                             {searchKeys.map(searchKey => (
-                                <span onClick={handleClickSearchBy}
+                                <span onClick={!carts.searchState[searchKey]?handleClickSearchBy:null}
+                                      ref={!carts.searchState[searchKey]?searchByEl:null}
                                     className={carts.searchState[searchKey]
                                         ? classes.searchVariantsListElement + " " + classes.activeVariant
                                         : classes.searchVariantsListElement + " " + classes.passiveVariant}

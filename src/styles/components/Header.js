@@ -48,11 +48,18 @@ const headerStyles = theme => {
         viewTypeLinks: {
             margin: '0 5px',
         },
-        mainLinks: {
-            display: 'flex',
-            justifyContent: 'space-between',
+        secHeaderEl:{
+            display:'flex',
+            fontFamily:'"Comic Sans MS", cursive, sans-serif',
+            justifyContent:'space-around',
+            alignItems:'center',
             gridArea: 'mainLinks',
-            alignItems: 'center',
+            padding:20,
+        },
+        diplomaTitle:{
+            backgroundColor: '#98012E',
+            border: '1px solid #98012E',
+            borderRadius: 3,
         },
         favourites: {
             display: 'flex',
